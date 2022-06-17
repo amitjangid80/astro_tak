@@ -7,6 +7,7 @@ import 'package:astro_tak/app/core/bindings/app_bindings.dart';
 import 'package:astro_tak/app/core/config/styles/app_theme.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:astro_tak/app/core/utils/constants/app_constants.dart';
+import 'package:astro_tak/app/modules/timer_func/views/timer_widget.dart';
 
 void main() {
   Initializer.to.onInit();
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       theme: themeData(),
       getPages: getPageList,
       initialBinding: AppBindings(),
-      initialRoute: kAskQuestionRoute,
+      // initialRoute: kAskQuestionRoute,
+      home: const TimerWidget(),
       debugShowCheckedModeBanner: false,
     );
   }

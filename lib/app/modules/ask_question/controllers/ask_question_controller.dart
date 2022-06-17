@@ -1,5 +1,7 @@
 // Created By Amit Jangid on 05/06/22
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:astro_tak/app/models/ask_question/category.dart';
@@ -65,5 +67,12 @@ class AskQuestionController extends GetxController {
     }
 
     return null;
+  }
+
+  Future<void> apiFunction() async {
+    final Timer timer = Timer(const Duration(minutes: 1), () {
+      // here we add the code to make the api call...
+      // this will call the api every one minute.
+    });
   }
 }

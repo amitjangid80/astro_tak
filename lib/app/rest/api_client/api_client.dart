@@ -10,9 +10,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:astro_tak/app/rest/api_client/api_response.dart';
 import 'package:astro_tak/app/core/utils/constants/app_constants.dart';
 
-class ApiClient extends http.BaseClient implements _IHttp {
+class ApiClient extends _IHttp {
   static const String _tag = 'ApiClient';
-  final http.Client _client = http.Client();
 
   late final String _baseUrl;
 
@@ -23,17 +22,6 @@ class ApiClient extends http.BaseClient implements _IHttp {
   static ApiClient get to => _instance ??= ApiClient._();
 
   set baseUrl(String value) => _baseUrl = value;
-
-  @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers.addAll({
-      kAccept: kApplicationJson,
-      kContentType: kApplicationJson,
-      kAuthorization: "$kBearer $kAuthToken",
-    });
-
-    return _client.send(request);
-  }
 
   @override
   Future<ApiResponse> getApi({required String api}) async {
@@ -51,7 +39,7 @@ class ApiClient extends http.BaseClient implements _IHttp {
       };
 
       debugPrint('getApi: api is: $api');
-      final response = await _client.get(_parseApi(api), headers: headers);
+      final response = await http.get(_parseApi(api), headers: headers);
 
       debugPrint('getApi: response status code is: ${response.statusCode}');
       debugPrint('getApi: response body is: ${response.body}');
@@ -93,7 +81,7 @@ class ApiClient extends http.BaseClient implements _IHttp {
 
       debugPrint('postApi: api is: $api');
       debugPrint('postApi: request body is: $requestBody');
-      final response = await _client.post(api, headers: headers, body: requestBody);
+      final response = await http.post(api, headers: headers, body: requestBody);
 
       debugPrint('postApi: response status code is: ${response.statusCode}');
       debugPrint('postApi: response body is: ${response.body}');
@@ -122,6 +110,7 @@ class ApiClient extends http.BaseClient implements _IHttp {
   dynamic _parseFromJson(final body) => jsonDecode(body);
 
   Future<bool> _checkConnectivity() async {
+    // calling check connectivity method
     final ConnectivityResult connectivityResult = await Connectivity().checkConnectivity();
 
     if (connectivityResult == ConnectivityResult.none) {
